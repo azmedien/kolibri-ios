@@ -1,0 +1,6 @@
+framework module Pods_Kolibri_Tests {
+  umbrella header "Pods-Kolibri_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}

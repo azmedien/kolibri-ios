@@ -1,0 +1,6 @@
+framework module Kolibri {
+  umbrella header "Kolibri-umbrella.h"
+
+  export *
+  module * { export * }
+}

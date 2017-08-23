@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'Kolibri'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of Kolibri.'
+  s.summary          = 'This is Kolibri Library'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -21,22 +21,28 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
-  s.homepage         = 'https://github.com/slav.sarafski/Kolibri'
+  s.homepage         = 'https://github.com/azmedien/kolibri-ios.git'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'slav.sarafski' => 'slav@spiritinvoker.com' }
-  s.source           = { :git => 'https://github.com/slav.sarafski/Kolibri.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/azmedien/kolibri-ios.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
 
   s.source_files = 'Kolibri/Classes/**/*'
-  
+
   # s.resource_bundles = {
   #   'Kolibri' => ['Kolibri/Assets/*.png']
   # }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.dependency 'Alamofire'
+  s.dependency 'SwiftyJSON'
+  s.dependency 'SideMenu'
+  s.dependency 'SDWebImage', '~>3.8'
+  s.dependency 'SnapKit', '~> 3.0.2'
+  s.dependency 'SwiftGifOrigin', '~> 1.6.1'
+  s.dependency 'Localize-Swift', '~> 1.7'
 end

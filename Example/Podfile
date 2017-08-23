@@ -1,3 +1,4 @@
+platform :ios, '9.0'
 use_frameworks!
 target 'Kolibri_Tests' do
   pod 'Kolibri', :path => '../'
