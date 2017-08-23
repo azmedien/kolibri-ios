@@ -1,0 +1,6 @@
+use_frameworks!
+target 'Kolibri_Tests' do
+  pod 'Kolibri', :path => '../'
+  
+  
+end
