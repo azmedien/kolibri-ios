@@ -12,7 +12,7 @@ import SDWebImage
 import Localize_Swift
 
 class KolibriWebView: UIView, WKNavigationDelegate {
-
+    
     var webView: WKWebView!
     var warningView: UIView?
     
@@ -57,7 +57,7 @@ class KolibriWebView: UIView, WKNavigationDelegate {
     }
     
     func load(url:String) -> Void {
-        if !API.isInternetAvailable() {
+        if !KolibriAPI.isInternetAvailable() {
             self.notLoadedURL = url
             self.showWarning(warning: "message.warning.internetless");
             return
@@ -75,10 +75,11 @@ class KolibriWebView: UIView, WKNavigationDelegate {
     }
     
     func reload() {
-        let url = URL(string: self.mainURL)
-        let request = URLRequest(url: url!)
-        self.webView.load(request)
-        self.isLoaded = false
+        if let url = URL(string: self.mainURL) {
+            let request = URLRequest(url: url)
+            self.webView.load(request)
+            self.isLoaded = false
+        }
     }
     
     func openKolibriWebViewController(url:String, title:String? = nil) {
@@ -140,7 +141,7 @@ class KolibriWebView: UIView, WKNavigationDelegate {
                 self.parentViewController?.navigationController?.navigationBar.barTintColor = UIColor.hexStringToUIColor(hex: color)
             }
             else {
-                self.parentViewController?.navigationController?.navigationBar.barTintColor = AppSettings.navigationBarBackground
+                self.parentViewController?.navigationController?.navigationBar.barTintColor = KolibriSettings.style.navigationBarBackground
             }
         })
     }
@@ -194,62 +195,69 @@ class KolibriWebView: UIView, WKNavigationDelegate {
                  decidePolicyFor navigationAction: WKNavigationAction,
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         
-        if let url = navigationAction.request.url?.absoluteString,
-            navigationAction.navigationType == .linkActivated
-        {
-           if url != self.mainURL {
-                if  let nsurl = navigationAction.request.url,
-                    nsurl.scheme == "kolibri",
-                    nsurl.host == "navigation",
-                    nsurl.pathComponents.count > 1 {
-                    NotificationCenter.default.post(name: Notification.Name(NotificationName.MenuDidSelected.rawValue),
-                                                    object: nil,
-                                                    userInfo: ["url":nsurl])
-                    decisionHandler(.cancel)
-                    return
-                }
-            
-                if let target = url.getQueryStringParameter(param: "kolibri-target") {
-                    switch target {
-                    case "_self":
-                        decisionHandler(.allow)
-                        return
-                    case "_internal":
-                        self.openKolibriWebViewController(url: url)
-                        decisionHandler(.cancel)
-                        return
-                    case "_external":
-                        self.openExternalURL(url: url)
-                        decisionHandler(.cancel)
-                        return
-                    case "360player":
-                        self.openVRViewController(url: url)
-                        decisionHandler(.cancel)
-                        return
-                    default: break
-                    }
-                }
-                else {
-                    if  let domain = AppSettings.domain?.removeHTTPSandWWW(),
-                        let host = navigationAction.request.url?.host?.removeHTTPSandWWW(),
-                        host == domain {
-                            self.openKolibriWebViewController(url: url)
-                            decisionHandler(.cancel)
-                            return
-                    }
-                    
-                    self.openExternalURL(url: url)
-                    decisionHandler(.cancel)
-                    return
-                }
-            }
-            else {
-                decisionHandler(.allow)
-                return
-            }
+        guard  let url = navigationAction.request.url?.absoluteString else {
+            decisionHandler(.allow)
+            return
         }
         
-        decisionHandler(.allow)
+        // Check if request is not user interaction or it is main url
+        if  navigationAction.navigationType != .linkActivated ||
+            url == self.mainURL
+        {
+            decisionHandler(.allow)
+            return
+        }
+        
+        // Check if request is user interaction
+        if  let nsurl = navigationAction.request.url,
+            // Check for "kolibri://navigation/path" model of url
+            (nsurl.scheme == "kolibri" || nsurl.scheme == KolibriSettings.system.scheme),
+            nsurl.host == "navigation",
+            nsurl.pathComponents.count > 1
+        {
+            NotificationCenter.default.post(name: Notification.Name(NotificationName.KolibriTargetSend.rawValue),
+                                            object: nil,
+                                            userInfo: ["url":nsurl])
+            decisionHandler(.cancel)
+            return
+        }
+        
+        // Check is requeset has "kolibri-target"
+        if let target = url.getQueryStringParameter(param: "kolibri-target") {
+            switch target {
+            case "_self":
+                decisionHandler(.allow)
+                return
+            case "_internal":
+                self.openKolibriWebViewController(url: url)
+                decisionHandler(.cancel)
+                return
+            case "_external":
+                self.openExternalURL(url: url)
+                decisionHandler(.cancel)
+                return
+            case "360player":
+                self.openVRViewController(url: url)
+                decisionHandler(.cancel)
+                return
+            default: break
+            }
+        }
+        else {
+            // Check for is DOMAIN the same like KolibriSettings.domain
+            if  let domain = KolibriSettings.system.domain?.removeHTTPSandWWW(),
+                let host = navigationAction.request.url?.host?.removeHTTPSandWWW(),
+                host == domain {
+                self.openKolibriWebViewController(url: url)
+                decisionHandler(.cancel)
+                return
+            }
+            
+            // In end it is opening in external Safari browser
+            self.openExternalURL(url: url)
+            decisionHandler(.cancel)
+            return
+        }
     }
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
@@ -305,11 +313,13 @@ extension KolibriWebView{
         }
     }
     
-    func shareAction(sender:KolibriBarButtonItem) {
+    @objc func shareAction(sender:KolibriBarButtonItem) {
         self.getMetaTags { (metas) in
             let title = (metas.first(where: {$0.property == METATAG_TITLE})?.content) ?? ""
             let imageURL = (metas.first(where: {$0.property == METATAG_IMAGE})?.content) ?? ""
-            let url = (metas.first(where: {$0.property == METATAG_URL})?.content) ?? self.webView.url?.absoluteString ?? ""
+            let url =   (metas.first(where: {$0.property == METATAG_CANONICAL_URL})?.content) ??
+                (metas.first(where: {$0.property == METATAG_URL})?.content) ??
+                self.webView.url?.absoluteString ?? ""
             
             let downloader = SDWebImageDownloader()
             
@@ -329,10 +339,10 @@ extension KolibriWebView{
     }
     
     func showShareController(activityItems:[Any]) {
-        AppSettings.isSharing = true
+        KolibriSettings.system.isSharing = true
         let shareController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         shareController.completionWithItemsHandler = { (activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
-            AppSettings.isSharing = false
+            KolibriSettings.system.isSharing = false
         }
         self.parentViewController?.present(shareController, animated: true, completion: nil)
     }
@@ -374,12 +384,12 @@ extension KolibriWebView {
             
             let button = UIButton()
             button.setTitle("button.reload".localized().uppercased(), for: .normal)
-            button.setTitleColor(AppSettings.alternativeTextColor, for: .normal)
-            button.borderColor = AppSettings.alternativeTextColor
+            button.setTitleColor(KolibriSettings.style.alternativeTextColor, for: .normal)
+            button.borderColor = KolibriSettings.style.alternativeTextColor
             button.borderWidth = 1
             button.cornerRadius = 4
             button.titleLabel?.font = UIFont.normalFont(size: 14)
-            button.addTarget(self, action: #selector(reloadNotLoaded), for: .touchUpInside)
+            button.addTarget(self, action: #selector(self.reloadNotLoaded), for: .touchUpInside)
             self.warningView?.addSubview(button)
             button.snp.makeConstraints({ (make) in
                 make.height.equalTo(30)
@@ -390,7 +400,7 @@ extension KolibriWebView {
         }
     }
     
-    func reloadNotLoaded() {
+    @objc func reloadNotLoaded() {
         self.load(url: self.notLoadedURL)
     }
 }

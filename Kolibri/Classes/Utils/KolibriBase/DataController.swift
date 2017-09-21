@@ -10,7 +10,7 @@ import UIKit
 import SwiftyJSON
 
 class DataController: NSObject {
-
+    
     static var shared = DataController()
     
     
@@ -18,18 +18,26 @@ class DataController: NSObject {
         var menu:[MenuElement] = []
         var footer:[MenuElement] = []
         
+        // DOMAIN & SCHEME Save and Cahce
         if let domain = json["domain"].string {
-            AppSettings.domain = domain
+            KolibriSettings.system.domain = domain
+        }
+        if let scheme = json["scheme"].string {
+            KolibriSettings.system.scheme = scheme
         }
         
-        // NETMETRIX URL
+        // NETMETRIX URL Save and Cahce
         if let netmetrixURL = json["netmetrix"].string {
-            UserDefaults.standard.set(netmetrixURL, forKey: "netmetrixURL")
+            KolibriSettings.netMetrix.url = netmetrixURL
+        }
+        // NETMETRIX TYPE Save and Cahce
+        if let netmetrixType = json["netmetrix-type"].string {
+            KolibriSettings.netMetrix.type = netmetrixType
         }
         
-        // ASSETS URL
+        // ASSETS URL Save and Cahce
         if let assetURL = json["amazon"].string {
-            UserDefaults.standard.set(assetURL, forKey: "assetsURL")
+            KolibriSettings.system.assetsURL = assetURL
         }
         
         // MENU HEADER
@@ -60,10 +68,10 @@ class DataController: NSObject {
         
         // COLORS
         if let colorDict = json["styling"]["color-palette"].dictionary {
-            AppSettings.colors = [:]
+            KolibriSettings.style.colors = [:]
             for color in colorDict {
                 let colorString = color.value.string ?? ""
-                AppSettings.colors[color.key] = UIColor.hexStringToUIColor(hex: colorString)
+                KolibriSettings.style.colors[color.key] = UIColor.hexStringToUIColor(hex: colorString)
             }
         }
         

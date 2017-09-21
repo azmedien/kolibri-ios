@@ -20,16 +20,18 @@ class KolibriAnalytics {
 class NetMetrix: NSObject {
     
     static func reportToNetmetrix(_ referrer:String?) {
-        guard var netMetrixURL = AppSettings.netМetrixURL else {
-            KolibriLog.printIt(error: "NetMetrix: offerKey was not found")
-            return
+        guard var netMetrixURL = KolibriSettings.netMetrix.url,
+            let type = KolibriSettings.netMetrix.type else {
+                KolibriLog.printIt(error: "NetMetrix: offerKey was not found")
+                return
         }
-        let platform = "ios"
-        let device = "universal"
-        let size = "\(Int(UIScreen.main.bounds.width))x\(Int(UIScreen.main.bounds.height))"
-        let random = arc4random() % 1000000;
         
-        let agent = "Mozilla/5.0 (iOS-phone; U; CPU iPhone OS like Mac OS X)"
+        let platform = "ios"
+        let size = "\(Int(UIScreen.main.bounds.width))x\(Int(UIScreen.main.bounds.height))"
+        let random = arc4random() % 1000000
+        
+        let system = type == "phone" ? "iPhone " : (type == "tablet" ? "iPad " : "")
+        let agent = "Mozilla/5.0 (iOS-\(type); U; CPU \(system)OS like Mac OS X)"
         let headers:HTTPHeaders = ["User-Agent" : agent, "Accept-Language" : "[de]"]
         
         if netMetrixURL.characters.last != "/" {
@@ -38,7 +40,7 @@ class NetMetrix: NSObject {
         
         netMetrixURL.append(platform)
         netMetrixURL.append("/")
-        netMetrixURL.append(device)
+        netMetrixURL.append(type)
         netMetrixURL.append("?d=\(random)")
         netMetrixURL.append("&x=\(size)")
         if referrer != nil {
@@ -68,13 +70,3 @@ class NetMetrix: NSObject {
         return String(bytes: Data(bytes: &sysinfo.machine, count: Int(_SYS_NAMELEN)), encoding: .ascii)!.trimmingCharacters(in: .controlCharacters)
     }
 }
-
-//class FirebaseExtend {
-//    static func reportToFirebase(url:String, name:String?) {
-//        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-//            AnalyticsParameterItemID: url as NSObject,
-//            AnalyticsParameterItemName: (name ?? url) as NSObject,
-//            AnalyticsParameterContentType: (name ?? "application/amp+html") as NSObject
-//            ])
-//    }
-//}

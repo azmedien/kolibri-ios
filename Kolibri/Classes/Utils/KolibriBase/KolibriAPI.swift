@@ -1,5 +1,5 @@
 //
-//  API.swift
+//  KolibriAPI.swift
 //  Kolibri
 //
 //  Created by Slav Sarafski on 9/2/17.
@@ -11,11 +11,11 @@ import Alamofire
 import SwiftyJSON
 import SystemConfiguration
 
-class API: NSObject {
-
+class KolibriAPI: NSObject {
+    
     // MARK: Share manager
-    static let shared : API = {
-        let instance = API()
+    static let shared : KolibriAPI = {
+        let instance = KolibriAPI()
         
         let config = URLSessionConfiguration.default
         config.requestCachePolicy = .reloadIgnoringLocalAndRemoteCacheData
@@ -27,37 +27,39 @@ class API: NSObject {
     }()
     
     static var sessionManager:SessionManager!
- 
+    
     // MARK: Get configurations
     func getSystemConfigurations(completion: @escaping (_ error:String) -> Void) {
-        if !API.isInternetAvailable() {
+        if !KolibriAPI.isInternetAvailable() {
             completion("No internet connection")
             return
         }
         
-        Alamofire.request(AppSettings.configURL,
+        Alamofire.request(KolibriSettings.system.configURL,
                           method: .get,
                           parameters: nil,
                           encoding: JSONEncoding.default,
                           headers: nil).responseJSON { (response) in
-            
-            var error = ""
-            
-            if (response.result.isSuccess){
-                let json = JSON(response.result.value!)
-                
-                DataController.shared.saveSystemConfigurations(json: json)
-            }
-            else {
-                error = "Bad request"
-            }
-            
-            completion(error)
+                            
+                            var error = ""
+                            
+                            if response.result.isSuccess,
+                               let jsonString = response.result.value
+                            {
+                                let json = JSON(jsonString)
+                                DataController.shared.saveSystemConfigurations(json: json)
+                            }
+                            else
+                            {
+                                error = "Bad request"
+                            }
+                            
+                            completion(error)
         }
     }
     
     func getHEAD(for url:URL, completion: @escaping (_ header:[AnyHashable:Any]?, _ error:String?) -> Void) {
-        if !API.isInternetAvailable() {
+        if !KolibriAPI.isInternetAvailable() {
             completion(nil, "No Net")
             return
         }
@@ -70,7 +72,7 @@ class API: NSObject {
                           headers: nil).responseString(completionHandler: { (response) in
                             completion(response.response?.allHeaderFields, nil)
                             
-        })
+                          })
     }
     
     // MARK: Check Internet connectivity
@@ -95,3 +97,4 @@ class API: NSObject {
         return (isReachable && !needsConnection)
     }
 }
+

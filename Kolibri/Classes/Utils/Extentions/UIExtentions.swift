@@ -14,17 +14,14 @@ import AVKit
 class ReplaceSegue: UIStoryboardSegue {
     
     override func perform() {
-        //let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        if let window = UIApplication.shared.windows.first {
-            window.rootViewController = destination
-        }
+        UIApplication.shared.delegate?.window??.rootViewController = destination
     }
 }
 
 
 extension UINavigationController {
     open override var preferredStatusBarStyle: UIStatusBarStyle {
-        return AppSettings.statusBarStyle
+        return KolibriSettings.style.statusBarStyle
     }
 }
 
@@ -54,7 +51,7 @@ extension UIViewController {
         }
         else {
             let indicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
-            indicator.color = AppSettings.primaryColor
+            indicator.color = KolibriSettings.style.primaryColor
             indicator.center = loadingView.center
             indicator.startAnimating()
             loadingView.addSubview(indicator)
@@ -94,7 +91,7 @@ extension UIViewController {
         }
         else {
             let indicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
-            indicator.color = AppSettings.primaryColor
+            indicator.color = KolibriSettings.style.primaryColor
             indicator.center = CGPoint(x: 70, y: 40)
             indicator.startAnimating()
             popup.addSubview(indicator)
@@ -126,7 +123,7 @@ extension UIViewController {
         let button = UIButton(type: .custom)
         button.frame = CGRect(x: 0, y: 0, width: 36, height: 24)
         button.setImage(hamburegImage, for: .normal)
-        button.tintColor = AppSettings.navigationBarItemTint
+        button.tintColor = KolibriSettings.style.navigationBarItemTint
         button.addTarget(MainViewController.share, action: #selector(MainViewController.share.showMenu), for: .touchUpInside)
         self.navigationItem.setLeftBarButton(UIBarButtonItem(customView: button), animated: false)
     }
@@ -199,3 +196,4 @@ extension UIButton {
         self.setBackgroundImage(colorImage, for: forState)
     }
 }
+

@@ -193,17 +193,17 @@ class QueryBuilder: NSObject {
 
 class KolibriLog {
     static func printIt(message: String) {
-        if AppSettings.logLevel == .All || AppSettings.logLevel == .Log {
+        if KolibriSettings.logLevel == .All || KolibriSettings.logLevel == .Log {
             print("Kolibri Message: \(message)")
         }
     }
     static func printIt(error: String) {
-        if AppSettings.logLevel == .All || AppSettings.logLevel == .Error {
+        if KolibriSettings.logLevel == .All || KolibriSettings.logLevel == .Error {
             print("Kolibri Error: \(error)")
         }
     }
     static func printIt(warning: String) {
-        if AppSettings.logLevel == .All || AppSettings.logLevel == .Warning {
+        if KolibriSettings.logLevel == .All || KolibriSettings.logLevel == .Warning {
             print("Kolibri Warning: \(warning)")
         }
     }

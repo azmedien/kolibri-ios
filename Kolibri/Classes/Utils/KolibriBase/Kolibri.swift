@@ -36,10 +36,10 @@ class Kolibri: NSObject {
     }
     
     func loadSystemConfiguration(completion: @escaping (_ error:String) -> Void) {
-        AppSettings.system.isSystemConfigurationLoaded = false
-        API.shared.getSystemConfigurations { (error) in
+        KolibriSettings.system.isSystemConfigurationLoaded = false
+        KolibriAPI.shared.getSystemConfigurations { (error) in
             
-            AppSettings.system.isSystemConfigurationLoaded = true
+            KolibriSettings.system.isSystemConfigurationLoaded = true
             NotificationCenter.default.post(name: Notification.Name(NotificationName.SystemConfigurationLoaded.rawValue),
                                             object: nil)
             
@@ -77,7 +77,7 @@ extension Kolibri {
     func handlePushOnLaunch(with launchOptions:[UIApplicationLaunchOptionsKey: Any]?) {
         if  let dict = launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] as? NSDictionary,
             let url = dict["url"] as? String {
-//            AppSettings.resolveNotificationAction = ["url": url]
+//            KolibriSettings.resolveNotificationAction = ["url": url]
             Kolibri.shared.riseTask(task: PushKolibriTask(url: url))
         }
     }
