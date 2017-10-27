@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Kolibri'
-  s.version          = '0.1.0'
+  s.version          = '0.1.2'
   s.summary          = 'This is Kolibri Library'
 
 # This description is used to generate tags and improve search results.
@@ -36,13 +36,12 @@ TODO: Add long description of the pod here.
   #   'Kolibri' => ['Kolibri/Assets/*.png']
   # }
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
+  
   s.dependency 'Alamofire'
   s.dependency 'SwiftyJSON'
-  s.dependency 'SideMenu'
+  s.dependency 'SideMenu', '~> 2.3.3.0'
   s.dependency 'SDWebImage', '~>3.8'
-  s.dependency 'SnapKit', '~> 3.0.2'
+  s.dependency 'SnapKit', '~> 4.0.0'
   s.dependency 'SwiftGifOrigin', '~> 1.6.1'
   s.dependency 'Localize-Swift', '~> 1.7'
 end

@@ -82,14 +82,16 @@ extension String {
         if includeBounds {
             return (range(of: from)?.lowerBound).flatMap { substringFrom in
                 (range(of: to, range: substringFrom..<endIndex)?.upperBound).map { substringTo in
-                    substring(with: substringFrom..<substringTo)
+//                    substring(with: substringFrom..<substringTo)
+                    String(self[substringFrom..<substringTo])
                 }
             }
         }
         
         return (range(of: from)?.upperBound).flatMap { substringFrom in
             (range(of: to, range: substringFrom..<endIndex)?.lowerBound).map { substringTo in
-                substring(with: substringFrom..<substringTo)
+//                substring(with: substringFrom..<substringTo)
+                String(self[substringFrom..<substringTo])
             }
         }
     }

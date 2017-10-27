@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		40330A75C2CB8DF15DE14140 /* Pods_Kolibri.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 143820EEF67081E2B1474E88 /* Pods_Kolibri.framework */; };
+		64B2F59B7ACDA068487ED890 /* Pods_KolibriExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 648CC3C5CE0718553AB2F87E /* Pods_KolibriExample.framework */; };
 		F7A7646E1F6BCDD5001D430D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A7646D1F6BCDD5001D430D /* AppDelegate.swift */; };
 		F7A764701F6BCDD5001D430D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A7646F1F6BCDD5001D430D /* ViewController.swift */; };
 		F7A764731F6BCDD5001D430D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F7A764711F6BCDD5001D430D /* Main.storyboard */; };
@@ -20,10 +20,13 @@
 		53177105C07322A381C8266C /* Pods-Kolibri.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kolibri.release.xcconfig"; path = "Pods/Target Support Files/Pods-Kolibri/Pods-Kolibri.release.xcconfig"; sourceTree = "<group>"; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
+		648CC3C5CE0718553AB2F87E /* Pods_KolibriExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KolibriExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		68B72B3911AC4D51636EAB3D /* Pods-Kolibri_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kolibri_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Kolibri_Tests/Pods-Kolibri_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		88B577DF835A3288155BB757 /* Pods_Kolibri_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kolibri_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8ECD8FE6BF4874B28FEB7016 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		988A97F4CA5DB547C981B2F6 /* Pods-Kolibri.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kolibri.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Kolibri/Pods-Kolibri.debug.xcconfig"; sourceTree = "<group>"; };
+		B0454E6083C0A574D8D3F75B /* Pods-KolibriExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KolibriExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KolibriExample/Pods-KolibriExample.debug.xcconfig"; sourceTree = "<group>"; };
+		B263A339AE3ECCA928C5A095 /* Pods-KolibriExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KolibriExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-KolibriExample/Pods-KolibriExample.release.xcconfig"; sourceTree = "<group>"; };
 		BA4B3138CF3B4E2B1B937C0C /* Pods-Kolibri_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kolibri_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Kolibri_Tests/Pods-Kolibri_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		D9D0DF3B4E39F6091A858C36 /* Kolibri.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Kolibri.podspec; path = ../Kolibri.podspec; sourceTree = "<group>"; };
 		F7A7646B1F6BCDD5001D430D /* KolibriExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KolibriExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -41,7 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				40330A75C2CB8DF15DE14140 /* Pods_Kolibri.framework in Frameworks */,
+				64B2F59B7ACDA068487ED890 /* Pods_KolibriExample.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,6 +56,7 @@
 			children = (
 				88B577DF835A3288155BB757 /* Pods_Kolibri_Tests.framework */,
 				143820EEF67081E2B1474E88 /* Pods_Kolibri.framework */,
+				648CC3C5CE0718553AB2F87E /* Pods_KolibriExample.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -111,6 +115,8 @@
 				68B72B3911AC4D51636EAB3D /* Pods-Kolibri_Tests.release.xcconfig */,
 				988A97F4CA5DB547C981B2F6 /* Pods-Kolibri.debug.xcconfig */,
 				53177105C07322A381C8266C /* Pods-Kolibri.release.xcconfig */,
+				B0454E6083C0A574D8D3F75B /* Pods-KolibriExample.debug.xcconfig */,
+				B263A339AE3ECCA928C5A095 /* Pods-KolibriExample.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -168,7 +174,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "Kolibri" */;
+			buildConfigurationList = 607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "KolibriExample" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -211,7 +217,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Kolibri-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-KolibriExample-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -230,7 +236,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Kolibri/Pods-Kolibri-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KolibriExample/Pods-KolibriExample-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9EED8899D24946432537A889 /* [CP] Embed Pods Frameworks */ = {
@@ -239,7 +245,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Kolibri/Pods-Kolibri-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-KolibriExample/Pods-KolibriExample-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Kolibri/Kolibri.framework",
 				"${BUILT_PRODUCTS_DIR}/Localize-Swift/Localize_Swift.framework",
@@ -262,7 +268,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Kolibri/Pods-Kolibri-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KolibriExample/Pods-KolibriExample-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -400,7 +406,7 @@
 		};
 		F7A7647B1F6BCDD5001D430D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 988A97F4CA5DB547C981B2F6 /* Pods-Kolibri.debug.xcconfig */;
+			baseConfigurationReference = B0454E6083C0A574D8D3F75B /* Pods-KolibriExample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -420,7 +426,7 @@
 				DEVELOPMENT_TEAM = E46XZ59H63;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Kolibri/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = az.azmobile.podlibrary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -432,7 +438,7 @@
 		};
 		F7A7647C1F6BCDD5001D430D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53177105C07322A381C8266C /* Pods-Kolibri.release.xcconfig */;
+			baseConfigurationReference = B263A339AE3ECCA928C5A095 /* Pods-KolibriExample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -451,7 +457,7 @@
 				DEVELOPMENT_TEAM = E46XZ59H63;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Kolibri/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = az.azmobile.podlibrary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -463,7 +469,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "Kolibri" */ = {
+		607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "KolibriExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				607FACED1AFB9204008FA782 /* Debug */,

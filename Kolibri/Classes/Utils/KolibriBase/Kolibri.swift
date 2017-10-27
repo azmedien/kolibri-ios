@@ -8,33 +8,113 @@
 
 import UIKit
 
-class Kolibri: NSObject {
+public class Kolibri: NSObject {
     
     // MARK: Share manager
-    static let shared : Kolibri = {
+    public static let shared : Kolibri = {
         let instance = Kolibri()
         
         return instance
     }()
     
+    var delegate:KolibriDelegate?
+    
     var tasks:[KolibriTask] = []
+    static var selectedMenuItem:MenuElement?
+    
     
     // Initial setup for Kolibri
-    func setup() {
+    public func setup() {
         // USER AGENT
         if let standartAgent = UIWebView().stringByEvaluatingJavaScript(from: "navigator.userAgent") {
             UserDefaults.standard.register(defaults: ["UserAgent" : "Kolibri /1.0 \(standartAgent)"])
         }
         
-        
+        // Start: Register events
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.resolveActionHandler(notification:)),
+                                               name: Notification.Name(NotificationName.KolibriTargetSend.rawValue),
+                                               object: nil)
     }
     
+    // MARK: Handle Kolibri Target Action
+    @objc func resolveActionHandler(notification: NSNotification) {
+        guard let menu = DataController.shared.getMenu() else {
+            return
+        }
+        
+        var url = ""
+        var title = ""
+        var target:MenuItem.MenuItemTargets?
+        var menuItem:MenuElement? = nil
+        
+        // Check if MenuElement call the action
+        if let item = notification.userInfo?["menuItem"] as? MenuElement {
+            url = item.url ?? ""
+            title = item.title ?? ""
+            target = item.target
+            menuItem = item
+        }
+        
+        // Check is PushNotification call the action
+        // Set the URL, Target and Title for the page
+        if let item = notification.userInfo?["url"] as? String,
+            let nsurl = URL(string: item) {
+            
+            // Check for "kolibri://navigation/path" model of url
+            if (nsurl.scheme == "kolibri" || nsurl.scheme == KolibriSettings.system.scheme),
+                nsurl.host == "navigation",
+                nsurl.pathComponents.count > 1
+            {
+                let path = nsurl.pathComponents[1]
+                if let localMenuItem = menu.first(where: {$0.id == path}) {
+                    url = localMenuItem.url ?? ""
+                    title = localMenuItem.title ?? ""
+                    target = localMenuItem.target
+                    menuItem = localMenuItem
+                }
+                if let queryItems = URLComponents(string: item)?.queryItems {
+                    if let destination = queryItems.first(where: {$0.name == "url"})?.value {
+                        url = destination
+                        target = .TargetInternal
+                    }
+                }
+            }
+            else
+                // Check for is DOMAIN the same like KolibriSettings.domain
+                if nsurl.host == KolibriSettings.system.domain {
+                    url = item
+                    title = ""
+                    target = .TargetInternal
+                }
+                else
+                    // Check for is url is external
+                    if nsurl.scheme == "http" || nsurl.scheme == "https" {
+                        url = item
+                        title = ""
+                        target = .TargetExternal
+            }
+        }
+        
+        // Resolve the action for the Action
+        if url != "" && target != nil {
+            
+            if target != .TargetExternal, menuItem != nil {
+                Kolibri.selectedMenuItem = menuItem
+            }
+            
+            delegate?.kolibriActionResolved(url: url, title: title, target: target, menuItem: menuItem)
+        }
+    }
+    
+    // Loading Kolibri system configurations when app EnterForeground
     func kolibriWillEnterForeground(completion: @escaping (_ error:String) -> Void = {_ in}) {
         self.loadSystemConfiguration { (error) in
             completion(error)
         }
     }
     
+    // Loading Kolibri system configurations
     func loadSystemConfiguration(completion: @escaping (_ error:String) -> Void) {
         KolibriSettings.system.isSystemConfigurationLoaded = false
         KolibriAPI.shared.getSystemConfigurations { (error) in
@@ -155,4 +235,9 @@ extension Kolibri {
         }
         return UIInterfaceOrientationMask.portrait
     }
+}
+
+// MARK: Kolibri Delegate
+protocol KolibriDelegate {
+    func kolibriActionResolved(url:String, title:String, target:MenuItem.MenuItemTargets?, menuItem:MenuElement?) ->Void
 }

@@ -12,7 +12,7 @@ import SDWebImage
 import Localize_Swift
 
 class KolibriWebView: UIView, WKNavigationDelegate {
-    
+
     var webView: WKWebView!
     var warningView: UIView?
     
@@ -21,13 +21,15 @@ class KolibriWebView: UIView, WKNavigationDelegate {
     var loggedTitle:String = ""
     var isLoaded:Bool = false
     
+    var navigationBarColor:UIColor?
+    
     func createWebView() {
         self.backgroundColor = .white
         self.webView = WKWebView(frame: self.bounds)
         self.addSubview(self.webView)
         self.webView.navigationDelegate = self
         self.webView.scrollView.bounces = false
-        //self.webView.addObserver(self, forKeyPath: #keyPath(WKWebView.isLoading), options: .new, context: nil)
+        
     }
     
     override init(frame: CGRect) {
@@ -86,6 +88,7 @@ class KolibriWebView: UIView, WKNavigationDelegate {
         let controller = WebPageViewController()
         controller.url = url
         controller.titleString = title
+        controller.navigationBarColor = self.navigationBarColor
         self.parentViewController?.navigationController?.pushViewController(controller, animated: true)
     }
     
@@ -138,10 +141,12 @@ class KolibriWebView: UIView, WKNavigationDelegate {
             if let color = (metas.first(where: {$0.property == METATAG_THEME})?.content),
                 color.contains("#")
             {
-                self.parentViewController?.navigationController?.navigationBar.barTintColor = UIColor.hexStringToUIColor(hex: color)
+                self.navigationBarColor = UIColor.hexStringToUIColor(hex: color)
+                self.parentViewController?.navigationController?.navigationBar.barTintColor = self.navigationBarColor
             }
             else {
-                self.parentViewController?.navigationController?.navigationBar.barTintColor = KolibriSettings.style.navigationBarBackground
+                let color = self.navigationBarColor ?? KolibriSettings.style.navigationBarBackground
+                self.parentViewController?.navigationController?.navigationBar.barTintColor = color
             }
         })
     }
@@ -318,8 +323,8 @@ extension KolibriWebView{
             let title = (metas.first(where: {$0.property == METATAG_TITLE})?.content) ?? ""
             let imageURL = (metas.first(where: {$0.property == METATAG_IMAGE})?.content) ?? ""
             let url =   (metas.first(where: {$0.property == METATAG_CANONICAL_URL})?.content) ??
-                (metas.first(where: {$0.property == METATAG_URL})?.content) ??
-                self.webView.url?.absoluteString ?? ""
+                        (metas.first(where: {$0.property == METATAG_URL})?.content) ??
+                        self.webView.url?.absoluteString ?? ""
             
             let downloader = SDWebImageDownloader()
             

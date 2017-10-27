@@ -22,7 +22,7 @@ class LoadingViewController: UIViewController {
         let launchViewController = launchStoryboard.instantiateViewController(withIdentifier: "LaunchViewController")
         self.view.addSubview(launchViewController.view)
         
-        API.shared.getSystemConfigurations { (error) in
+        KolibriAPI.shared.getSystemConfigurations { (error) in
             // AdTech
             
             // End AdTech

@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_Kolibri_TestsVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_Kolibri_TestsVersionString[];
+FOUNDATION_EXPORT double Pods_KolibriExampleVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_KolibriExampleVersionString[];
 

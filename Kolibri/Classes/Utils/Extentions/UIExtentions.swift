@@ -11,9 +11,9 @@ import Alamofire
 import SwiftGifOrigin
 import AVKit
 
-class ReplaceSegue: UIStoryboardSegue {
+public class ReplaceSegue: UIStoryboardSegue {
     
-    override func perform() {
+    override public func perform() {
         UIApplication.shared.delegate?.window??.rootViewController = destination
     }
 }

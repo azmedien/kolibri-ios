@@ -28,7 +28,7 @@ class PushKolibriTask: KolibriTask {
         
         self.url = u
         
-        if AppSettings.system.isSystemConfigurationLoaded {
+        if KolibriSettings.system.isSystemConfigurationLoaded {
             self.resolveTask()
         }
         else {
@@ -43,7 +43,7 @@ class PushKolibriTask: KolibriTask {
         NotificationCenter.default.removeObserver(self)
     }
     
-    func systemConfigurationsLoaded(notification:Notification) {
+    @objc func systemConfigurationsLoaded(notification:Notification) {
         self.resolveTask()
         NotificationCenter.default.removeObserver(self)
     }

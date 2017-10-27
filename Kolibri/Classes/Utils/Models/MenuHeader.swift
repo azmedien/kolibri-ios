@@ -10,7 +10,7 @@ import UIKit
 import SwiftyJSON
 
 class MenuHeader: MenuItem, NSCoding {
-
+    
     var title:String?
     var background:String?
     var image:String?
@@ -49,8 +49,6 @@ class MenuHeader: MenuItem, NSCoding {
         {
             return UIColor.hexStringToUIColor(hex: b)
         }
-        return AppSettings.menuHeaderBackground
+        return KolibriSettings.style.menuHeaderBackground
     }
 }
-
-

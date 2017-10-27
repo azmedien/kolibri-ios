@@ -97,7 +97,7 @@ class MenuElement: MenuItem, NSCoding {
                 self.target = MenuItemTargets(rawValue: target)!
             }
             else {
-                if let domain = AppSettings.domain {
+                if let domain = KolibriSettings.system.domain {
                     if URL(string:url)?.host == domain {
                         self.target = .TargetSelf
                     }
@@ -137,7 +137,7 @@ class MenuElement: MenuItem, NSCoding {
         if asset.contains("http") {
             return asset
         }
-        let assetLink = AppSettings.configURL.replacingOccurrences(of: "runtime", with: "assets")
+        let assetLink = KolibriSettings.system.configURL.replacingOccurrences(of: "runtime", with: "assets")
         let core = assetLink.components(separatedBy: ".com")[1]
         if asset.contains("-png-") {
             let assetURL = "\(assetLink)/\(asset)/download"
@@ -147,10 +147,11 @@ class MenuElement: MenuItem, NSCoding {
             let assetURL = "\(assetLink)/\(asset)/download"
             return assetURL
         }
-        if var assetURL = AppSettings.assetsURL {
+        if var assetURL = KolibriSettings.system.assetsURL {
             assetURL = "\(assetURL)\(core)/\(asset).png"
             return assetURL
         }
         return ""
     }
 }
+

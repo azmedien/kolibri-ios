@@ -1,6 +1,6 @@
 {
   "name": "Kolibri",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "summary": "This is Kolibri Library",
   "description": "TODO: Add long description of the pod here.",
   "homepage": "https://github.com/azmedien/kolibri-ios.git",
@@ -12,8 +12,8 @@
     "slav.sarafski": "slav@spiritinvoker.com"
   },
   "source": {
-    "git": "https://github.com/slav.sarafski/Kolibri.git",
-    "tag": "0.1.0"
+    "git": "https://github.com/azmedien/kolibri-ios.git",
+    "tag": "0.1.1"
   },
   "platforms": {
     "ios": "9.0"
@@ -27,13 +27,13 @@
 
     ],
     "SideMenu": [
-
+      "~> 2.3.3.0"
     ],
     "SDWebImage": [
       "~>3.8"
     ],
     "SnapKit": [
-      "~> 3.0.2"
+      "~> 4.0.0"
     ],
     "SwiftGifOrigin": [
       "~> 1.6.1"

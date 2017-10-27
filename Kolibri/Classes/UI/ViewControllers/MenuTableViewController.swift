@@ -10,7 +10,7 @@ import UIKit
 import SideMenu
 
 class MenuTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var footerBorderView: UIView!
@@ -20,8 +20,6 @@ class MenuTableViewController: UIViewController, UITableViewDelegate, UITableVie
     var menuFooter:[MenuElement]?
     var menuHeader:MenuHeader?
     
-    var isHeaderCreated:Bool = false
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,9 +28,9 @@ class MenuTableViewController: UIViewController, UITableViewDelegate, UITableVie
             self.tableView.reloadData()
         }
     }
-
+    
     override func viewDidLayoutSubviews() {
-        if !self.isHeaderCreated, let header = DataController.shared.getMenuHeader() {
+        if let header = DataController.shared.getMenuHeader() {
             self.createMenuHeader(header: header)
         }
         if let footer = DataController.shared.getMenuFooter() {
@@ -41,6 +39,11 @@ class MenuTableViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    /* Creating of the Menu Header
+     * Create and set a header image background
+     * Create and set a logo image
+     * Create and set a title if has
+     */
     func createMenuHeader(header:MenuHeader) {
         self.headerView.backgroundColor = header.backgroundColor()
         
@@ -68,7 +71,7 @@ class MenuTableViewController: UIViewController, UITableViewDelegate, UITableVie
             self.createMenuHeaderLogo(header: header)
         }
         
-        if let headerBorderColor = AppSettings.menuHeaderBorder {
+        if let headerBorderColor = KolibriSettings.style.menuHeaderBorder {
             let border = UIView()
             border.backgroundColor = headerBorderColor
             self.headerView.addSubview(border)
@@ -77,10 +80,13 @@ class MenuTableViewController: UIViewController, UITableViewDelegate, UITableVie
                 make.left.right.bottom.equalTo(0)
             })
         }
-        
-        self.isHeaderCreated = true
     }
     
+    /* Creating of the Menu Header Logo
+     * Positions can be "Center", "Left", "Right", "Top", "Bottom"
+     * Can be combine like "leftTop" or "bottomRight"
+     * Order is not requested "leftTop" = "topLeft" = "Topleft"
+     */
     func createMenuHeaderLogo(header:MenuHeader) {
         let size = self.headerView.frame.size
         let logoView = UIImageView(frame: CGRect(x: 10, y: size.height/2-10, width: size.width/2, height: size.height/2))
@@ -109,13 +115,14 @@ class MenuTableViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    // Creating of the Menu Footer
     func createMenuFooter(array:[MenuElement]) {
         if array.count < 1 {
             return
         }
         
-        self.footerView.backgroundColor = AppSettings.menuFooterBackground
-        self.footerBorderView.backgroundColor = AppSettings.menuFooterBorder
+        self.footerView.backgroundColor = KolibriSettings.style.menuFooterBackground
+        self.footerBorderView.backgroundColor = KolibriSettings.style.menuFooterBorder
         
         self.footerView.removeAllSubviews()
         
@@ -125,17 +132,17 @@ class MenuTableViewController: UIViewController, UITableViewDelegate, UITableVie
             button.tag = tag
             tag = tag + 1
             button.setTitle(item.title, for: .normal)
-            button.setTitleColor(AppSettings.menuFooterItem, for: .normal)
+            button.setTitleColor(KolibriSettings.style.menuFooterItem, for: .normal)
             button.titleLabel?.font = UIFont.normalFont(size: 14)
             button.backgroundColor = .white
-            button.addTarget(self, action: #selector(openMenuItem(sender:)), for: .touchUpInside)
+            button.addTarget(self, action: #selector(self.openMenuItem(sender:)), for: .touchUpInside)
             self.footerView.addArrangedSubview(button)
         }
         
         self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: -50, right: 0)
     }
     
-    func openMenuItem(sender:UIButton) {
+    @objc func openMenuItem(sender:UIButton) {
         if let item = self.menuFooter?[sender.tag] {
             self.dismiss(animated: true) {
                 MainViewController.selectMenuItem(item: item)
@@ -144,7 +151,7 @@ class MenuTableViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     // MARK: - Table view data source
-
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -156,7 +163,7 @@ class MenuTableViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "menuItemCellIdentifier", for: indexPath) as! MenuTableViewCell
         
@@ -164,21 +171,21 @@ class MenuTableViewController: UIViewController, UITableViewDelegate, UITableVie
         
         cell.cellTitleLabel.text = item.title
         
-        if MainViewController.selectedMenuItem?.id == item.id {
+        if Kolibri.selectedMenuItem?.id == item.id {
             // Selected row
-            cell.cellTitleLabel.textColor = AppSettings.primaryColor
+            cell.cellTitleLabel.textColor = KolibriSettings.style.primaryColor
             cell.cellTitleLabel.font = UIFont.boldFont(size: 16)
             
             // TINT normal icon
             if let image = item.icon {
                 cell.cellImageView.sd_setImage(with: URL(string: image), completed: { (img, error, type, url) in
-                    cell.cellImageView.image = img?.maskWithColor(color: AppSettings.primaryColor)
+                    cell.cellImageView.image = img?.maskWithColor(color: KolibriSettings.style.primaryColor)
                 })
             }
         }
         else {
             // NON Selected row
-            cell.cellTitleLabel.textColor = AppSettings.secondaryTextColor
+            cell.cellTitleLabel.textColor = KolibriSettings.style.secondaryTextColor
             cell.cellTitleLabel.font = UIFont.normalFont(size: 16)
             if let image = item.icon {
                 cell.cellImageView.sd_setImage(with: URL(string: image))
@@ -188,10 +195,10 @@ class MenuTableViewController: UIViewController, UITableViewDelegate, UITableVie
         if item.type != nil, item.type == .separator {
             cell.backgroundColor = .gray
         }
-
+        
         return cell
     }
-
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -215,3 +222,4 @@ class MenuTableViewCell: UITableViewCell {
     @IBOutlet weak var cellTitleLabel: UILabel!
     
 }
+

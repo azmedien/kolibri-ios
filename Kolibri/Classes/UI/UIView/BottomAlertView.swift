@@ -93,7 +93,7 @@ class BottomAlertView: UIView {
         }
     }
     
-    func action(sender:UIButton) {
+    @objc func action(sender:UIButton) {
         if self.buttonAction != nil {
             self.buttonAction!()
             self.hide()

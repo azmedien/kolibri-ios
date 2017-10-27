@@ -41,5 +41,28 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>KolibriParameters</key>
+	<dict>
+		<key>Fonts</key>
+		<dict>
+			<key>bold</key>
+			<string></string>
+			<key>italic</key>
+			<string></string>
+			<key>normal</key>
+			<string></string>
+		</dict>
+		<key>kolibri_navigation_url</key>
+		<string>http://kolibri.herokuapp.com/apps/MWuSQb4PB2cwbGXs62PpQ9Xz/runtime</string>
+		<key>kolibri_netmetrix_url</key>
+		<string>https://we-ssl.wemfbox.ch/cgi-bin/ivw/CP/apps/wireltern</string>
+	</dict>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict/>
+	</dict>
 </dict>
 </plist>

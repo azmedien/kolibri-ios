@@ -17,7 +17,7 @@
                BlueprintIdentifier = "607FACCF1AFB9204008FA782"
                BuildableName = "Kolibri_Example.app"
                BlueprintName = "Kolibri_Example"
-               ReferencedContainer = "container:Kolibri.xcodeproj">
+               ReferencedContainer = "container:KolibriExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -31,7 +31,7 @@
                BlueprintIdentifier = "607FACE41AFB9204008FA782"
                BuildableName = "Kolibri_Tests.xctest"
                BlueprintName = "Kolibri_Tests"
-               ReferencedContainer = "container:Kolibri.xcodeproj">
+               ReferencedContainer = "container:KolibriExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -50,7 +50,7 @@
                BlueprintIdentifier = "607FACE41AFB9204008FA782"
                BuildableName = "Kolibri_Tests.xctest"
                BlueprintName = "Kolibri_Tests"
-               ReferencedContainer = "container:Kolibri.xcodeproj">
+               ReferencedContainer = "container:KolibriExample.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -60,7 +60,7 @@
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
             BuildableName = "Kolibri_Example.app"
             BlueprintName = "Kolibri_Example"
-            ReferencedContainer = "container:Kolibri.xcodeproj">
+            ReferencedContainer = "container:KolibriExample.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -84,7 +84,7 @@
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
             BuildableName = "Kolibri_Example.app"
             BlueprintName = "Kolibri_Example"
-            ReferencedContainer = "container:Kolibri.xcodeproj">
+            ReferencedContainer = "container:KolibriExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -103,7 +103,7 @@
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
             BuildableName = "Kolibri_Example.app"
             BlueprintName = "Kolibri_Example"
-            ReferencedContainer = "container:Kolibri.xcodeproj">
+            ReferencedContainer = "container:KolibriExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

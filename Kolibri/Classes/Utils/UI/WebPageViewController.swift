@@ -12,6 +12,7 @@ class WebPageViewController: UIViewController {
 
     var titleString:String?
     var url:String = ""
+    var navigationBarColor:UIColor?
     
     var webView:KolibriWebView!
     
@@ -28,6 +29,8 @@ class WebPageViewController: UIViewController {
         self.webView.snp.makeConstraints { (make) in
             make.top.bottom.left.right.equalTo(0)
         }
+        
+        self.webView.navigationBarColor = self.navigationBarColor
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,14 +38,9 @@ class WebPageViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if !AppSettings.isSharing {
+        if !KolibriSettings.system.isSharing {
             self.webView.load(url: self.url)
         }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     // Statusbar visibility

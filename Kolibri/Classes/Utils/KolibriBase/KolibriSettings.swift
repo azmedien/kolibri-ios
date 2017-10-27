@@ -7,7 +7,7 @@
 //
 
 
-class KolibriSettings: NSObject {
+public class KolibriSettings: NSObject {
     
     //System configurations
     struct system {
